@@ -1,8 +1,7 @@
 package com.job;
 
-import com.job.dao.JobRolesDAO;
-import com.job.model.JobRoles;
-
+import com.job.dao.JobSpecialDAO;
+import com.job.model.JobSpecialization;
 
 public class App 
 {
@@ -12,9 +11,13 @@ public class App
         //CompaniesDAO dao=new CompaniesDAO();
         //dao.addCompanies(companies);
 
-        JobRoles jobroles=new JobRoles(1,"SDE","freshers interested to learn new skills","Top MNC","India");
-        JobRolesDAO dao=new JobRolesDAO();
-        dao.addJobRoles(jobroles);
+        //JobRoles jobroles=new JobRoles(1,"SDE","freshers interested to learn new skills","Top MNC","India");
+        //JobRolesDAO dao=new JobRolesDAO();
+        //dao.addJobRoles(jobroles);
+
+        JobSpecialization jobspecial=new JobSpecialization(1,"Freshers","Real time Hands on experience","20000");
+        JobSpecialDAO dao=new JobSpecialDAO();
+        dao.addJobSpecial(jobspecial);
 
    
 }
