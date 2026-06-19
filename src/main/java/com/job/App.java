@@ -1,7 +1,6 @@
 package com.job;
 
-import com.job.dao.JobSpecialDAO;
-import com.job.model.JobSpecialization;
+import com.job.dao.JobRolesDAO;
 
 public class App 
 {
@@ -15,11 +14,28 @@ public class App
         //JobRolesDAO dao=new JobRolesDAO();
         //dao.addJobRoles(jobroles);
 
-        JobSpecialization jobspecial=new JobSpecialization(1,"Freshers","Real time Hands on experience","20000");
-        JobSpecialDAO dao=new JobSpecialDAO();
-        dao.addJobSpecial(jobspecial);
+        //JobSpecialization jobspecial=new JobSpecialization(1,"Freshers","Real time Hands on experience","20000");
+        //JobSpecialDAO dao=new JobSpecialDAO();
+        //dao.addJobSpecial(jobspecial);
 
-   
+        /*Scanner sc= new Scanner(System.in);
+        System.out.print("Enter your Experience: ");
+        String experience=sc.nextLine();
+        
+        JobSpecialization jobspecial=new JobSpecialization(1,experience,"Build new features","35000");
+        JobSpecialDAO dao=new JobSpecialDAO();
+        dao.updateJobSp(jobspecial); 
+        */
+       
+      // Companies companies= new Companies();
+       //CompaniesDAO dao=new CompaniesDAO();
+       //dao.getByID(2);
+
+       JobRolesDAO dao=new JobRolesDAO();
+       dao.getByID(2);
+       
+      //JobSpecialDAO dao=new JobSpecialDAO();
+       //dao.getByID(3);; 
 }
 
 }
