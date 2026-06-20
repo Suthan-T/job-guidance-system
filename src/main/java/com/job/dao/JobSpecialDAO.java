@@ -9,6 +9,8 @@ import com.job.model.JobSpecialization;
 import com.job.util.DBConnection;
 
 public class JobSpecialDAO{
+
+    //To add/insert job Specifications
     public void addJobSpecial(JobSpecialization jobspecial){
 
         String sql="INSERT INTO job_specifications(job_id,experience_level,responsibilities,salary_range) VALUES(?,?,?,?)";
@@ -31,6 +33,7 @@ public class JobSpecialDAO{
         }
     }
 
+    //To read all Job Specifications
      public void getAllJobSpecify(){
         String sql="SELECT * FROM job_specifications";
 
@@ -56,6 +59,7 @@ public class JobSpecialDAO{
         }
     }
 
+    //To read job specification by ID
     public void getByID(int sid){
         String sql="SELECT * FROM job_specifications WHERE id=?";
 
@@ -81,6 +85,8 @@ public class JobSpecialDAO{
                 e.printStackTrace();
             }
     }
+
+    //To update job specificaion description
     public void updateJobSp(JobSpecialization jobspecial){
         String sql="UPDATE job_specifications SET experience_level=? WHERE job_id=?";
 
@@ -98,5 +104,27 @@ public class JobSpecialDAO{
             e.printStackTrace();
         }
 
+    }
+
+    //To delete job specification by their ID
+    public void delete(int cid){
+        String sql="DELETE FROM job_specifications WHERE id=?";
+        try (
+            Connection con=DBConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement(sql)){
+
+            ps.setInt(1, cid);
+            int affected=ps.executeUpdate();
+
+            if(affected>0){
+                System.out.println("Success!! Deleted Records:"+cid);
+            }
+            else{
+                System.out.println("No records matched provided ID");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

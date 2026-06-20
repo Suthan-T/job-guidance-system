@@ -10,6 +10,7 @@ import com.job.util.DBConnection;
 
 public class JobRolesDAO {
 
+    //To Add/Insert Job Roles records
     public void addJobRoles(JobRoles jobroles){
         //Companies companies=new Companies();
         String sql="INSERT INTO job_roles(company_id,title,description,industry,location) VALUES(?,?,?,?,?)";
@@ -34,6 +35,7 @@ public class JobRolesDAO {
 
     }
 
+    //To read all Job Roles Records
     public void getAllJobRoles(){
         String sql="SELECT * FROM job_roles";
 
@@ -60,6 +62,7 @@ public class JobRolesDAO {
         }
     }
     
+    //To Read Job Roles By specific ID
     public void getByID(int sid){
         String sql="SELECT * FROM job_roles WHERE id=?";
 
@@ -87,4 +90,26 @@ public class JobRolesDAO {
             }
     }
     
+
+    //To delete job roles by their ID
+    public void delete(int cid){
+        String sql="DELETE FROM job_roles WHERE id=?";
+        try (
+            Connection con=DBConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement(sql)){
+
+            ps.setInt(1, cid);
+            int affected=ps.executeUpdate();
+
+            if(affected>0){
+                System.out.println("Success!! Deleted Records:"+cid);
+            }
+            else{
+                System.out.println("No records matched provided ID");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

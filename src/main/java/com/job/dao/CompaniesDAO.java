@@ -9,6 +9,7 @@ import com.job.model.Companies;
 import com.job.util.DBConnection;
 
 public class CompaniesDAO{
+    //To add/insert companies record
     public void addCompanies(Companies companies){
 
         String sql="INSERT INTO companies(name, description, website, headquarters) VALUES(?,?,?,?)";
@@ -33,6 +34,7 @@ public class CompaniesDAO{
         }
     }
 
+    //To read all companies record
     public void getAllCompany(){
         String sql="SELECT * FROM companies";
         try (
@@ -57,6 +59,7 @@ public class CompaniesDAO{
         }
     }
 
+    //To read companies by thier ID
     public void getByID(int sid){
         String sql="SELECT * FROM companies WHERE id=?";
 
@@ -84,6 +87,8 @@ public class CompaniesDAO{
             }
     }
 
+
+    //To update comapnies description
     public void updateDes(Companies companies){
         String sql="UPDATE companies SET description=? WHERE name=?";
         try{
@@ -98,6 +103,28 @@ public class CompaniesDAO{
 
         }
         catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //To delete companies by ID
+    public void delete(int cid){
+        String sql="DELETE FROM companies WHERE id=?";
+        try (
+            Connection con=DBConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement(sql)){
+
+            ps.setInt(1, cid);
+            int affected=ps.executeUpdate();
+
+            if(affected>0){
+                System.out.println("Success!! Deleted Records:"+cid);
+            }
+            else{
+                System.out.println("No records matched provided ID");
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

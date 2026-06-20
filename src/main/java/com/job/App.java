@@ -1,12 +1,13 @@
 package com.job;
 
-import com.job.dao.JobRolesDAO;
+import com.job.model.*;
+import com.job.dao.*;
 
 public class App 
 {
     public static void main( String[] args )
     {
-        //Companies companies=new Companies("Google", "Top 1 MNC", "https://google.com", "California");
+        //Companies companies=new Companies("IBM", "Top 1 DataCenter", "https://ibm.com", "Australia");
         //CompaniesDAO dao=new CompaniesDAO();
         //dao.addCompanies(companies);
 
@@ -31,11 +32,14 @@ public class App
        //CompaniesDAO dao=new CompaniesDAO();
        //dao.getByID(2);
 
-       JobRolesDAO dao=new JobRolesDAO();
-       dao.getByID(2);
+       //JobRolesDAO dao=new JobRolesDAO();
+       //dao.delete(1);
        
-      //JobSpecialDAO dao=new JobSpecialDAO();
-       //dao.getByID(3);; 
+        //JobSpecialDAO dao=new JobSpecialDAO();
+        //dao.delete(1);
+
+       //CompaniesDAO dao=new CompaniesDAO();
+       //dao.getAllCompany();
 }
 
 }
