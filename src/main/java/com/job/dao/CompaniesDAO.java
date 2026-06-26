@@ -14,10 +14,10 @@ public class CompaniesDAO{
 
         String sql="INSERT INTO companies(name, description, website, headquarters) VALUES(?,?,?,?)";
 
-        try{
+        try(
             Connection con = DBConnection.getConnection();
 
-            PreparedStatement ps=con.prepareStatement(sql);
+            PreparedStatement ps=con.prepareStatement(sql)){
 
             ps.setString(1,companies.getName());
             ps.setString(2,companies.getDescription());
@@ -60,40 +60,45 @@ public class CompaniesDAO{
     }
 
     //To read companies by thier ID
-    public void getByID(int sid){
+    public Companies getByID(int sid){
         String sql="SELECT * FROM companies WHERE id=?";
 
-        try{Connection con=DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement(sql);
+        try(Connection con=DBConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement(sql)){
                ps.setInt(1,sid);
                try(ResultSet rs=ps.executeQuery()){
                     if(rs.next()){
-                        int id=rs.getInt("id");
-                        String name=rs.getString("name");
-                        String desc=rs.getString("description");
-                        String web=rs.getString("website");
-                        String head=rs.getString("headquarters");
 
-                        System.out.println("Record Found!");
-                        System.out.println("| "+id+" |"+name+" |"+desc+" |"+web+" |"+head+" |");
+                        Companies company=new Companies();
+                    
+                        company.setId(rs.getInt("id"));
+                        company.setName(rs.getString("name"));
+                        company.setDescription(rs.getString("description"));
+                        company.setWebsite(rs.getString("website"));
+                        company.setHeadquarters(rs.getString("headquarters"));
+
+                        return company;
+                        //System.out.println("Record Found!");
+                        //System.out.println("| "+id+" |"+name+" |"+desc+" |"+web+" |"+head+" |");
                     }
                     else{
-                        System.out.println("No records found!! for ID:"+sid);
+                        //System.out.println("No records found!! for ID:"+sid);
                     }
                }
             }
             catch(Exception e){
                 e.printStackTrace();
             }
+            return null;
     }
 
 
     //To update comapnies description
     public void updateDes(Companies companies){
         String sql="UPDATE companies SET description=? WHERE name=?";
-        try{
+        try(
             Connection con=DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement(sql);
+            PreparedStatement ps=con.prepareStatement(sql)){
 
             ps.setString(1,companies.getDescription());
             ps.setString(2,companies.getName());
