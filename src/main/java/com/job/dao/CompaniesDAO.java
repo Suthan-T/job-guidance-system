@@ -3,112 +3,121 @@ package com.job.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.job.model.Companies;
 import com.job.util.DBConnection;
 
 public class CompaniesDAO{
     //To add/insert companies record
-    public void addCompanies(Companies companies){
+    public boolean addCompany(Companies company){
 
         String sql="INSERT INTO companies(name, description, website, headquarters) VALUES(?,?,?,?)";
 
-        try{
-            Connection con = DBConnection.getConnection();
+        try(Connection con = DBConnection.getConnection();
+        	PreparedStatement ps=con.prepareStatement(sql)){
 
-            PreparedStatement ps=con.prepareStatement(sql);
+            ps.setString(1,company.getName());
+            ps.setString(2,company.getDescription());
+            ps.setString(3,company.getWebsite());
+            ps.setString(4,company.getHeadquarters());
 
-            ps.setString(1,companies.getName());
-            ps.setString(2,companies.getDescription());
-            ps.setString(3,companies.getWebsite());
-            ps.setString(4,companies.getHeadquarters());
+            int rows = ps.executeUpdate();
 
-            ps.executeUpdate();
-
-            System.out.println("Inserted Successfully");
+            return rows > 0;
         }
 
-        catch(Exception e){
+        catch(SQLException e){
             e.printStackTrace();
         }
+		return false;
     }
 
     //To read all companies record
-    public void getAllCompany(){
+    public List<Companies> getAllCompanies(){
         String sql="SELECT * FROM companies";
         try (
             Connection con=DBConnection.getConnection();
             Statement st=con.createStatement();
             ResultSet rs=st.executeQuery(sql)){
-            System.out.println("|ID |Name   |Description|Website          |Headquarters|");
-            System.out.println("|------------------------------------------------------|");
 
+            List<Companies> companiesList = new ArrayList<>();
             while(rs.next()){
-                int id=rs.getInt("id");
-                String name=rs.getString("name");
-                String desc=rs.getString("description");
-                String web=rs.getString("website");
-                String head=rs.getString("headquarters");
+            	Companies company = new Companies();
 
-                System.out.println("| "+id+" |"+name+" |"+desc+" |"+web+" |"+head+" |");
+            	company.setId(rs.getInt("id"));
+            	company.setName(rs.getString("name"));
+            	company.setDescription(rs.getString("description"));
+            	company.setWebsite(rs.getString("website"));
+            	company.setHeadquarters(rs.getString("headquarters"));
+
+            	companiesList.add(company);
             }
+            return companiesList;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        return new ArrayList<>();
     }
 
     //To read companies by thier ID
-    public void getByID(int sid){
+    public Companies getCompanyById(int id) {
         String sql="SELECT * FROM companies WHERE id=?";
 
-        try{Connection con=DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement(sql);
-               ps.setInt(1,sid);
+        try(Connection con=DBConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement(sql)){
+               ps.setInt(1,id);
                try(ResultSet rs=ps.executeQuery()){
                     if(rs.next()){
-                        int id=rs.getInt("id");
-                        String name=rs.getString("name");
-                        String desc=rs.getString("description");
-                        String web=rs.getString("website");
-                        String head=rs.getString("headquarters");
+                    	Companies company = new Companies();
 
-                        System.out.println("Record Found!");
-                        System.out.println("| "+id+" |"+name+" |"+desc+" |"+web+" |"+head+" |");
-                    }
-                    else{
-                        System.out.println("No records found!! for ID:"+sid);
+                    	company.setId(rs.getInt("id"));
+                    	company.setName(rs.getString("name"));
+                    	company.setDescription(rs.getString("description"));
+                    	company.setWebsite(rs.getString("website"));
+                    	company.setHeadquarters(rs.getString("headquarters"));
+
+                    	return company;
                     }
                }
             }
-            catch(Exception e){
+            catch(SQLException e){
                 e.printStackTrace();
             }
+        return null;
     }
 
 
-    //To update comapnies description
-    public void updateDes(Companies companies){
-        String sql="UPDATE companies SET description=? WHERE name=?";
-        try{
-            Connection con=DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement(sql);
+    //To update companies description
+    public boolean updateCompany(Companies company){
+        String sql="UPDATE companies SET name=?, description=?,website=?,headquarters=? WHERE id=?";	        
+        try(Connection con=DBConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement(sql)){
 
-            ps.setString(1,companies.getDescription());
-            ps.setString(2,companies.getName());
-            ps.executeUpdate();
+            ps.setString(1, company.getName());
+            ps.setString(2, company.getDescription());
+            ps.setString(3, company.getWebsite());
+            ps.setString(4, company.getHeadquarters());
+            ps.setInt(5, company.getId());
+            int rows = ps.executeUpdate();
 
-            System.out.print("Company Description Updated");
+            return rows > 0;
+
+            //System.out.print("Company Description Updated");
 
         }
-        catch(Exception e){
+        catch(SQLException e){
             e.printStackTrace();
         }
+        return false;
     }
 
     //To delete companies by ID
-    public void delete(int cid){
+    public boolean deleteCompany(int cid){
         String sql="DELETE FROM companies WHERE id=?";
         try (
             Connection con=DBConnection.getConnection();
@@ -117,15 +126,12 @@ public class CompaniesDAO{
             ps.setInt(1, cid);
             int affected=ps.executeUpdate();
 
-            if(affected>0){
-                System.out.println("Success!! Deleted Records:"+cid);
-            }
-            else{
-                System.out.println("No records matched provided ID");
-            }
+            	return affected > 0;
+           
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 }

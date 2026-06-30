@@ -38,7 +38,7 @@ public class App
         //JobSpecialDAO dao=new JobSpecialDAO();
         //dao.delete(1);
 
-       //CompaniesDAO dao=new CompaniesDAO();
+      // CompaniesDAO dao=new CompaniesDAO();
        //dao.getAllCompany();
 }
 
