@@ -15,9 +15,9 @@ public class JobRolesDAO {
         //Companies companies=new Companies();
         String sql="INSERT INTO job_roles(company_id,title,description,industry,location) VALUES(?,?,?,?,?)";
 
-        try {
+        try (
             Connection con = DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement(sql);
+            PreparedStatement ps=con.prepareStatement(sql)){
 
             ps.setInt(1,jobroles.getCid());
             ps.setString(2,jobroles.getTitle());
@@ -66,8 +66,8 @@ public class JobRolesDAO {
     public void getByID(int sid){
         String sql="SELECT * FROM job_roles WHERE id=?";
 
-        try{Connection con=DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement(sql);
+        try(Connection con=DBConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement(sql)){
                ps.setInt(1,sid);
                try(ResultSet rs=ps.executeQuery()){
                     if(rs.next()){

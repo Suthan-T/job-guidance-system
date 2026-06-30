@@ -15,9 +15,9 @@ public class JobSpecialDAO{
 
         String sql="INSERT INTO job_specifications(job_id,experience_level,responsibilities,salary_range) VALUES(?,?,?,?)";
 
-        try {
+        try (
             Connection con=DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement(sql);
+            PreparedStatement ps=con.prepareStatement(sql)){
 
             ps.setInt(1,jobspecial.getJid());
             ps.setString(2, jobspecial.getExperience());
@@ -63,8 +63,8 @@ public class JobSpecialDAO{
     public void getByID(int sid){
         String sql="SELECT * FROM job_specifications WHERE id=?";
 
-        try{Connection con=DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement(sql);
+        try(Connection con=DBConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement(sql)){
                ps.setInt(1,sid);
                try(ResultSet rs=ps.executeQuery()){
                     if(rs.next()){
@@ -90,9 +90,9 @@ public class JobSpecialDAO{
     public void updateJobSp(JobSpecialization jobspecial){
         String sql="UPDATE job_specifications SET experience_level=? WHERE job_id=?";
 
-        try {
+        try (
             Connection con=DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement(sql);
+            PreparedStatement ps=con.prepareStatement(sql)){
 
             ps.setString(1, jobspecial.getExperience());
             ps.setInt(2, jobspecial.getJid());
